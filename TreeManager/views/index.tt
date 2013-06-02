@@ -4,11 +4,14 @@
 
 <div id="treecontrol">
     [% IF tree_name.size %]
+        <form method="get" action="/selectTree">
         Trees in database: <select name="selectedTree">
             [% FOREACH name IN tree_name %]
                 <option value="[% name %]">[% name %]</option>
             [% END %]
         </select>
+        <input type="submit" name="selectTree" value="Select" />
+        </form>
     [% ELSE %]
 	    <p>No tree exists in database.</p>
     [% END %]
