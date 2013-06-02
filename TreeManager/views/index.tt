@@ -1,0 +1,79 @@
+<div id="title">
+    <h1>TreeManager</h1>
+</div>
+
+<div id="treecontrol">
+    [% IF tree_name.size %]
+        Trees in database: <select name="selectedTree">
+            [% FOREACH name IN tree_name %]
+                <option value="[% name %]">[% name %]</option>
+            [% END %]
+        </select>
+    [% ELSE %]
+	    <p>No tree exists in database.</p>
+    [% END %]
+<!--
+		if (scalar @{$treeNames} > 0) {
+			print start_form,
+			"Trees in database: ", popup_menu(-name => "selectedTree", -values => $treeNames),
+			hidden(-name => "selectTree", -default => 1),
+			submit("Select"),
+			end_form;
+		} else {
+			print p "Currently no trees exists in database.";
+		}
+		print start_form,
+		"Create new Tree:", textfield(-name => "treeName", -size => 30, -maxlength => 255, -value => ""), br,
+		hidden(-name => "createTree", -default => 1);
+		print span({-class => "error"}, $errorControl) if ($errorControl);
+		print submit("Create"),
+		end_form;
+-->
+</div>
+
+<div id="treeview">
+</div>
+          <div id="about-content" style="display: none;">
+            <table>
+                <tbody>
+                <tr>
+                    <td>Perl version</td>
+                    <td><tt><% perl_version %></tt></td>
+                </tr>
+                <tr>
+                    <td>Dancer version</td>
+                    <td><tt><% dancer_version %></tt></td>
+                </tr>
+                <tr>
+                    <td>Backend</td>
+                    <td><tt><% settings.apphandler %></tt></td>
+                </tr>
+                <tr>
+                    <td>Appdir</td>
+                    <td><tt>/home/mkukla/work/Dancer/TreeManager</tt></td>
+                </tr>
+                <tr>
+                    <td>Template engine</td>
+                    <td><tt><% settings.template %></tt></td>
+                </tr>
+                <tr>
+                    <td>Logger engine</td>
+                    <td><tt><% settings.logger %></tt></td>
+                </tr>
+                <tr>
+                    <td>Running environment</td>
+                    <td><tt><% settings.environment %></tt></td>
+                </tr>
+                </tbody>
+            </table>
+          </div>
+
+    <script type="text/javascript">
+    $('#about_env_link').click(function() {
+        $('#about-content').slideToggle('fast', function() {
+            // ok
+        });
+        return( false );
+    });
+    </script>
+
