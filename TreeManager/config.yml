@@ -26,5 +26,4 @@ engines:
      start_tag: '[%'
      end_tag:   '%]'
 
-user_id: 1
 

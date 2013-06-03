@@ -1,24 +1,37 @@
 package TreeManager;
 use Dancer ':syntax';
-use Data::Dumper;
+use Dancer::Plugin::FlashMessage;
 use TreeStorage;
 
 our $VERSION = '0.1';
 
 get '/' => sub {
-
-    my $names = TreeStorage->new()->getAllTreeNames();
-    template 'index', { tree_name => $names };
+    my $storage = TreeStorage->new();
+    my $names = $storage->getAllTreeNames();
+    my $activeTree = $storage->getActiveTree( config->{user_id} );
+    template 'index', { treeNames => $names, activeTree => $activeTree };
 };
 
 get '/selectTree' => sub {
-    debug "selected tree: " . params->{selectedTree};
-    debug "user id: " . config->{user_id};
+    if (params->{selectedTree}) {
+        TreeStorage->new()->setActiveTree( config->{user_id}, params->{selectedTree} );
+    }
     redirect '/';
 };
 
-get '/orig' => sub {
-    template 'index_orig';
+post '/createTree' => sub {
+    my $storage = TreeStorage->new();
+    if (length (params->{treeName}) > 0) {
+        if ($storage->existsTreeName(params->{treeName})) {
+            flash error => "Tree name already exists";
+        } else {
+            $storage->saveNewTreeName(params->{treeName}, config->{user_id});
+        }
+    } else {
+        flash error => "Tree name cannot be empty";
+    }
+    
+    redirect '/';
 };
 
 true;

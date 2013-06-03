@@ -35,3 +35,8 @@ plugins:
         username: 'treemanagerrw'
         password: 'forest'
 
+# session engine
+session: 'simple'
+
+# for testing purposes is user single-user environment and user_id is hardcoded to 1_
+user_id: 1

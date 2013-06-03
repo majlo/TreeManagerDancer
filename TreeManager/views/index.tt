@@ -3,38 +3,41 @@
 </div>
 
 <div id="treecontrol">
-    [% IF tree_name.size %]
+    <!-- Tree selection form -->
+    [% IF treeNames.size %]
         <form method="get" action="/selectTree">
         Trees in database: <select name="selectedTree">
-            [% FOREACH name IN tree_name %]
-                <option value="[% name %]">[% name %]</option>
+            [% UNLESS activeTree %]
+                <option value="">Select...</option>
+            [% END %]
+            [% FOREACH name IN treeNames %]
+                <option value="[% name %]" [% IF name == activeTree %]selected[% END %]>[% name %]</option>
             [% END %]
         </select>
-        <input type="submit" name="selectTree" value="Select" />
+        <input type="submit" value="Select" />
         </form>
     [% ELSE %]
 	    <p>No tree exists in database.</p>
     [% END %]
-<!--
-		if (scalar @{$treeNames} > 0) {
-			print start_form,
-			"Trees in database: ", popup_menu(-name => "selectedTree", -values => $treeNames),
-			hidden(-name => "selectTree", -default => 1),
-			submit("Select"),
-			end_form;
-		} else {
-			print p "Currently no trees exists in database.";
-		}
-		print start_form,
-		"Create new Tree:", textfield(-name => "treeName", -size => 30, -maxlength => 255, -value => ""), br,
-		hidden(-name => "createTree", -default => 1);
-		print span({-class => "error"}, $errorControl) if ($errorControl);
-		print submit("Create"),
-		end_form;
--->
+
+    <!-- New tree creation form -->
+    <form method="post" action="/createTree">
+    Create new Tree: <input type="text" name="treeName" size="30" maxlength="255" />
+    <input type="submit" value="Create" />
+    [% IF flash.error %]
+        <div class="error">[% flash.error %]</div>
+    [% END %]
+    </form>    
 </div>
 
 <div id="treeview">
+    <p>
+    [% IF activeTree %]
+        Active tree: [% activeTree %]
+    [% ELSE %]
+        No active tree to display
+    [% END %]
+    </p>
 </div>
           <div id="about-content" style="display: none;">
             <table>

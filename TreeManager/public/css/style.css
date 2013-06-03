@@ -30,11 +30,23 @@ body {
 	padding: 1%;
 }
 
+#footer {
+    clear: both;
+    text-align: center;
+    padding: 5px;
+    border-top: 1px dashed #000066;
+    border-bottom: 1px dashed #000066;
+}
+
 /************************/
 /* Headlines and texts  */
 /************************/
-span.error {
+.error {
 	color: red;
+    text-align: center;
+    margin: 5px;
+    padding: 5px;
+    border: 1px dotted;
 }
 
 #title h1 {
