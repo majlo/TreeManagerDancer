@@ -24,8 +24,8 @@
     <form method="post" action="/createTree">
     Create new Tree: <input type="text" name="treeName" size="30" maxlength="255" />
     <input type="submit" value="Create" />
-    [% IF flash.error %]
-        <div class="error">[% flash.error %]</div>
+    [% IF flash.errorTreeCreate %]
+        <div class="error">[% flash.errorTreeCreate %]</div>
     [% END %]
     </form>    
 </div>
@@ -34,6 +34,21 @@
     <p>
     [% IF activeTree %]
         Active tree: [% activeTree %]
+        [% IF tree %]
+            [% tree %]
+            <form method="post" action="addNode">
+            Add node to: <input type="text" name="nodeId" size="5" maxlength="30" value="" />
+            <input type="submit" value="Add" />
+            </form>
+        [% ELSE %]
+            <p>Tree is empty</p>
+            <form method="post" action="/createRootNode">
+            <input type="submit" value="Create root node" />
+            </form>
+        [% END %]
+        [% IF flash.errorAddNode %]
+            <div class="error">[% flash.errorAddNode %]</div>
+        [% END %]
     [% ELSE %]
         No active tree to display
     [% END %]
