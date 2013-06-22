@@ -11,15 +11,20 @@ get '/' => sub {
     my $storage = TreeStorage->new();
     my $names = $storage->getAllTreeNames();
     my $tree;
+    my $tree_html;
+    my $tree_json;
     if (session->{activeTree}) {
         $tree = Tree->new(session->{activeTree});
         $tree->loadFromStorage();
+        $tree_html = $tree->toHtml();
+        $tree_json = $tree->toJSON();
     }
 
     template 'index', {
         treeNames => $names,
         activeTree => session->{activeTree},
-        tree => $tree && !$tree->isEmpty() ? $tree->toHtml() : '',
+        tree => $tree_html,
+        tree_data_json => $tree_json,
     };
 };
 

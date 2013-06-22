@@ -84,6 +84,27 @@ sub getTreeId {
 	}
 }
 
+# helping structure providing information how many children has given parent
+sub getTreeWidth {
+	my $self = shift;
+	my $treeName = shift;
+	die ("Tree name not set") if (!defined $treeName);
+    my $result = {};
+	switch ($self->{type}) {
+		case "mysql" {
+			my $sth = $self->{handler}->prepare("SELECT IFNULL(id_parent, 'NONE') AS parent, COUNT(id_node) AS count FROM tree WHERE id_tree = ? GROUP BY id_parent");
+			$sth->execute($self->getTreeId($treeName)) or die ("Could not retrieve tree width: $DBI::errstr");
+			while (my $row =  $sth->fetchrow_hashref()) {
+                $result->{$row->{parent}} = $row->{count};
+            }
+            return $result;
+		}
+		else {
+			die ("Unknown type: $self->{type}");
+		}
+	}
+}
+
 # returns all trees existing in storage
 sub getAllTreeNames {
 	my $self = shift;

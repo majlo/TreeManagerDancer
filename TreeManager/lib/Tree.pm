@@ -9,6 +9,8 @@ Data structure representing unary tree (=tree, where every node has the only poi
 package Tree;
 use warnings;
 use strict;
+use JSON;
+use URI::Escape;
 use TreeNode;
 use TreeStorage;
 
@@ -98,14 +100,14 @@ sub toHtml {
 	my $self = shift;
 	my $parentId = 0;
 	my $depth = 0;
-	my $string = "<table><tr><th>Depth</th><th>Tree Nodes</th></tr><tr>";
+	my $string = "<table>";
 	foreach my $node (@{$self->sort()}) {
 		if (!defined $node->getParentId()) {
-			$string.= "<td>0</td><td>" . $node->toHtml();
+			$string.= "<td>" . $node->toHtml();
 		} else {
 			my $depthChanged = 0;
 			if ($node->getDepth() != $depth) {
-				$string.= "</td></tr><tr><td>" . $node->getDepth() . "</td><td>";
+				$string.= "</td></tr><tr><td>";
 				$depth = $node->getDepth();
 				$depthChanged = 1;
 			}
@@ -116,9 +118,17 @@ sub toHtml {
 			$string.= $node->toHtml() . "&nbsp";
 		}
 	}
-	$string.= "</td></tr></table>";
+	$string.= "</table>";
 	return $string;
-	
+}
+
+sub toJSON {
+    my $self = shift;
+    my $data = [];
+    for (@{$self->{nodes}}) {
+        push @$data, [ $_->getId(), $_->getParentId() ];
+    }
+    return uri_escape(encode_json($data));
 }
 
 # If has structure any node

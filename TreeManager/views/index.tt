@@ -35,7 +35,7 @@
     [% IF activeTree %]
         Active tree: [% activeTree %]
         [% IF tree %]
-            [% tree %]
+            <!--[% tree %]-->
             <form method="post" action="addNode">
             Add node to: <input type="text" name="nodeId" size="5" maxlength="30" value="" />
             <input type="submit" value="Add" />
@@ -53,6 +53,44 @@
         No active tree to display
     [% END %]
     </p>
+    <div id="chart_div">
+    [% IF tree_data_json %]
+        <input type="hidden" id="tree_json" value="[% tree_data_json %]" />
+    [% END %]
+    </div>
+<!-- TABLE -->
+<!--
+    <h2>test</h2>
+    <p>
+        <table class="treetest">
+            <tr><td colspan="3">0</td></tr>
+            <tr><td>1</td><td colspan="2">2</td></tr>
+            <tr><td class="empty"></td><td>3</td><td>4</td></tr>
+        </table>
+    </p>
+-->
+<!-- LI -->
+<!--
+    <p>
+        <div id="tree">
+        <ul>
+        <li>0
+            <ul>
+            <li>1
+                <ul>
+                <li>3</li>
+                <li>4</li>
+                </ul>
+            </li>
+            </ul>
+            <ul>
+            <li>2</li>
+            </ul>
+        </li>
+        </ul>
+        </div>
+    </p>
+-->
 </div>
           <div id="about-content" style="display: none;">
             <table>

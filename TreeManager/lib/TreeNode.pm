@@ -25,8 +25,8 @@ sub new {
 }
 
 sub getParentId {
-        my $self = shift;
-        return $self->{parentId};
+    my $self = shift;
+    return $self->{parentId};
 }
 
 sub getDepth {
@@ -35,10 +35,10 @@ sub getDepth {
 }
 
 sub setParentId {
-        my $self = shift;
-        my $parentId = shift;
-        die ("Parrent ID not set") if (!defined $parentId);
-        $self->{parentId} = $parentId;
+    my $self = shift;
+    my $parentId = shift;
+    die ("Parrent ID not set") if (!defined $parentId);
+    $self->{parentId} = $parentId;
 }
 
 sub setDepth {
