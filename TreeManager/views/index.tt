@@ -52,14 +52,24 @@
         No active tree to display
     [% END %]
     </p>
-    <div id="tree_chart_view">
-    [% IF tree_data_json %]
-        <input type="hidden" id="tree_json" value="[% tree_data_json %]" />
-    [% END %]
-    </div>
-    <div id="tree_list_view">
-    [% IF tree_list %]
-        [% tree_list %]
-    [% END %]
+    <div id="tabs">
+        <ul>
+            <li><a href="#tree_chart_view">Chart view</a></li>
+            <li><a href="#tree_list_view">List view</a></li>
+        </ul>
+        <div id="tree_chart_view">
+        <p>
+        [% IF tree_data_json %]
+            <input type="hidden" id="tree_json" value="[% tree_data_json %]" />
+        [% END %]
+        </p>
+        </div>
+        <div id="tree_list_view">
+        <p>
+        [% IF tree_list %]
+            [% tree_list %]
+        [% END %]
+        </p>
+        </div>
     </div>
 </div>
