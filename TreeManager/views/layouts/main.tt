@@ -13,14 +13,14 @@
 /* ]]> */</script>
 <script type='text/javascript' src='https://www.google.com/jsapi'></script>
 <script type='text/javascript'>
-function treeChart (dataJSON) {
+function treeChart () {
     if (!$('#tree_json').val()) { return; };
     var dataJSON = JSON.parse(decodeURIComponent($('#tree_json').val()));
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'ID');
     data.addColumn('string', 'Parent ID');
     data.addRows(dataJSON);
-    var chart = new google.visualization.OrgChart(document.getElementById('chart_div'));
+    var chart = new google.visualization.OrgChart(document.getElementById('tree_chart_view'));
     chart.draw(data, {allowHtml:true});
 }
 </script>

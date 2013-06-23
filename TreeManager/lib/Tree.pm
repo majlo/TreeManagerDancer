@@ -39,6 +39,12 @@ sub addRoot {
 	$self->{storage}->saveNode($node, $self->{name});
 }
 
+# Returns the root node.
+sub getRoot {
+    my $self = shift;
+    return $self->isEmpty() ? undef : $self->{nodes}->[0];
+}
+
 sub getName {
 	my $self = shift;
 	return $self->{name};
@@ -87,6 +93,13 @@ sub loadFromStorage {
 	}
 }
 
+# Return all sub-nodes of given node.
+sub getChildren {
+    my $self = shift;
+    my $node = shift;
+    return grep { (defined $_->getParentId() ? $_->getParentId() : -1) == $node->getId() } @{$self->{nodes}};
+}
+
 sub toString {
 	my $self = shift;
 	my $string = "";
@@ -96,8 +109,19 @@ sub toString {
 	return $string;
 }
 
+# Return HMLT representation of the tree.
+# Options are table or list, list is default.
 sub toHtml {
+    my $self = shift;
+    my $type = shift || 'list';
+    return $self->toHtmlTable() if $type eq 'table';
+    return $self->toHtmlList();
+ }
+
+# Return graphical representation of the tree as HTML table.
+sub toHtmlTable {
 	my $self = shift;
+    return if $self->isEmpty();
 	my $parentId = 0;
 	my $depth = 0;
 	my $string = "<table>";
@@ -122,6 +146,35 @@ sub toHtml {
 	return $string;
 }
 
+# Return graphical representation of the tree as HTML list.
+sub toHtmlList {
+	my $self = shift;
+    return if $self->isEmpty();
+	my $parentId = 0;
+	my $depth = 0;
+	my $string = '<ul>';
+    $string.= $self->toHtmlListRecursive($self->getRoot());
+	$string.= '</ul>';
+	return $string;
+}
+sub toHtmlListRecursive {
+    my $self = shift;
+    my $node = shift;
+    return '' unless $node;
+    my $string = '<li>' . $node->getId();
+    my @children = $self->getChildren($node);
+    if (@children) {
+        $string.= '<ul>';
+        for (@children) {
+            $string.= $self->toHtmlListRecursive($_);
+        }
+        $string.= '</ul>';
+    }
+    $string.= '</li>';
+    return $string;
+}
+
+# Return tree nodes in JSON format.
 sub toJSON {
     my $self = shift;
     my $data = [];
@@ -134,7 +187,7 @@ sub toJSON {
 # If has structure any node
 sub isEmpty {
 	my $self = shift;
-	return (scalar @{$self->{nodes}} == 0) ? 1 : 0;
+    return !defined $self->{nodes}->[0];
 }
 
 # sorts nodes by parent ID and node ID

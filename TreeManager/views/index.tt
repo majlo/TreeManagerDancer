@@ -34,8 +34,7 @@
     <p>
     [% IF activeTree %]
         Active tree: [% activeTree %]
-        [% IF tree %]
-            <!--[% tree %]-->
+        [% IF tree_list %]
             <form method="post" action="addNode">
             Add node to: <input type="text" name="nodeId" size="5" maxlength="30" value="" />
             <input type="submit" value="Add" />
@@ -53,86 +52,14 @@
         No active tree to display
     [% END %]
     </p>
-    <div id="chart_div">
+    <div id="tree_chart_view">
     [% IF tree_data_json %]
         <input type="hidden" id="tree_json" value="[% tree_data_json %]" />
     [% END %]
     </div>
-<!-- TABLE -->
-<!--
-    <h2>test</h2>
-    <p>
-        <table class="treetest">
-            <tr><td colspan="3">0</td></tr>
-            <tr><td>1</td><td colspan="2">2</td></tr>
-            <tr><td class="empty"></td><td>3</td><td>4</td></tr>
-        </table>
-    </p>
--->
-<!-- LI -->
-<!--
-    <p>
-        <div id="tree">
-        <ul>
-        <li>0
-            <ul>
-            <li>1
-                <ul>
-                <li>3</li>
-                <li>4</li>
-                </ul>
-            </li>
-            </ul>
-            <ul>
-            <li>2</li>
-            </ul>
-        </li>
-        </ul>
-        </div>
-    </p>
--->
+    <div id="tree_list_view">
+    [% IF tree_list %]
+        [% tree_list %]
+    [% END %]
+    </div>
 </div>
-          <div id="about-content" style="display: none;">
-            <table>
-                <tbody>
-                <tr>
-                    <td>Perl version</td>
-                    <td><tt><% perl_version %></tt></td>
-                </tr>
-                <tr>
-                    <td>Dancer version</td>
-                    <td><tt><% dancer_version %></tt></td>
-                </tr>
-                <tr>
-                    <td>Backend</td>
-                    <td><tt><% settings.apphandler %></tt></td>
-                </tr>
-                <tr>
-                    <td>Appdir</td>
-                    <td><tt>/home/mkukla/work/Dancer/TreeManager</tt></td>
-                </tr>
-                <tr>
-                    <td>Template engine</td>
-                    <td><tt><% settings.template %></tt></td>
-                </tr>
-                <tr>
-                    <td>Logger engine</td>
-                    <td><tt><% settings.logger %></tt></td>
-                </tr>
-                <tr>
-                    <td>Running environment</td>
-                    <td><tt><% settings.environment %></tt></td>
-                </tr>
-                </tbody>
-            </table>
-          </div>
-
-    <script type="text/javascript">
-    $('#about_env_link').click(function() {
-        $('#about-content').slideToggle('fast', function() {
-            // ok
-        });
-        return( false );
-    });
-    </script>
-

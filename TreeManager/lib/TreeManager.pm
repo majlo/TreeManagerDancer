@@ -11,19 +11,19 @@ get '/' => sub {
     my $storage = TreeStorage->new();
     my $names = $storage->getAllTreeNames();
     my $tree;
-    my $tree_html;
+    my $tree_list;
     my $tree_json;
     if (session->{activeTree}) {
         $tree = Tree->new(session->{activeTree});
         $tree->loadFromStorage();
-        $tree_html = $tree->toHtml();
+        $tree_list = $tree->toHtml();
         $tree_json = $tree->toJSON();
     }
 
     template 'index', {
         treeNames => $names,
         activeTree => session->{activeTree},
-        tree => $tree_html,
+        tree_list => $tree_list,
         tree_data_json => $tree_json,
     };
 };
@@ -43,6 +43,8 @@ post '/createTree' => sub {
             flash errorTreeCreate => "Tree name already exists";
         } else {
             $storage->saveNewTreeName(params->{treeName}, config->{user_id});
+            $storage->setActiveTree( config->{user_id}, params->{treeName} );
+            session activeTree => params->{treeName};
         }
     } else {
         flash errorTreeCreate => "Tree name cannot be empty";
